@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/goudsanm" />
+    <font
+        android:fontStyle="italic"
+        android:fontWeight="400"
+        android:font="@font/goudsami" />
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="700"
+        android:font="@font/goudsanb" />
+    <font
+        android:fontStyle="italic"
+        android:fontWeight="700"
+        android:font="@font/goudsabi" />
+</font-family>

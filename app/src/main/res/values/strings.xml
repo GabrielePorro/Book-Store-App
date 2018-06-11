@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">The old Book Store</string>
+    <string name="editor_insert_product_successful">Product saved</string>
+    <string name="editor_insert_product_failed">Error with saving product</string>
+    <string name="action_delete_all_entries">Delete All Products</string>
+    <string name="editor_activity_title_new_product">Add a Product</string>
+    <string name="editor_activity_title_edit_product">Edit Product</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="product">Product</string>
+    <string name="name">Name</string>
+    <string name="price">Price</string>
+    <string name="quantity">Quantity</string>
+    <string name="supplier_data">Supplier data</string>
+    <string name="supplier_name">Supplier name</string>
+    <string name="supplier_phone">Supplier phone</string>
+    <string name="there_are_no_products">There are no products</string>
+    <string name="please_add_one">Please add one</string>
+    <string name="empty_desert">empty desert</string>
+    <string name="sub">Sub</string>
+    <string name="add">Add</string>
+    <string name="editor_negative_quantity">Quantity can not be negative</string>
+    <string name="sale">Sale</string>
+    <string name="editor_update_product_successful">Product updated!</string>
+    <string name="editor_update_product_failed">Product update failed!</string>
+    <string name="editor_delete_product_successful">Product deleted!</string>
+    <string name="editor_delete_product_failed">Product deletion failed!</string>
+    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep Editing</string>
+    <string name="delete_dialog_msg">Are you sure to delete this product?</string>
+
+</resources>
