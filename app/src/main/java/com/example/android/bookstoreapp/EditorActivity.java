@@ -137,7 +137,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     /**
      * Get user input from editor and save pet into database.
      */
-    private void saveProduct() {
+    private boolean saveProduct() {
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
         String nameString = mNameEditText.getText().toString().trim();
@@ -154,18 +154,18 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 TextUtils.isEmpty(supplierPhoneString)) {
             // Since no fields were modified, we can return early without creating a new pet.
             // No need to create ContentValues and no need to do any ContentProvider operations.
-            return;
+            return false;
         }
         //fields control
         if (TextUtils.isEmpty(nameString)){
             Toast.makeText(this, "Insert a product name.",
                     Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
         if (TextUtils.isEmpty(priceString)){
             Toast.makeText(this, "Insert a product price.",
                     Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
         // Create a ContentValues object where column names are the keys,
         // and pet attributes from the editor are the values.
@@ -196,7 +196,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                         Toast.LENGTH_SHORT).show();
             }
         } else {
-            // Otherwise this is an EXISTING pet, so update the pet with content URI: mCurrentPetUri
+            // Otherwise this is an EXISTING product, so update the pet with content URI: mCurrentPetUri
             // and pass in the new ContentValues. Pass in null for the selection and selection args
             // because mCurrentPetUri will already identify the correct row in the database that
             // we want to modify.
@@ -213,6 +213,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                         Toast.LENGTH_SHORT).show();
             }
         }
+        return true;
     }
 
     /**
@@ -366,9 +367,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
                 // Save pet to database
-                saveProduct();
+                Boolean saveResult = saveProduct();
                 // Exit activity
-                finish();
+                if(saveResult){
+                    finish();
+                }
                 return true;
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:

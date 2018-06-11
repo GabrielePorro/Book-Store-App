@@ -40,13 +40,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-        ListView productListView = (ListView) findViewById(R.id.product_list);
+        ListView productListView = findViewById(R.id.product_list);
         // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
         View emptyView = findViewById(R.id.empty_view);
         productListView.setEmptyView(emptyView);
         //set the adapter
-        ProductCursorAdapter productAdapter = new ProductCursorAdapter(this,null);
-        productListView.setAdapter(productAdapter);
+        myCursorAdapter = new ProductCursorAdapter(this,null);
+        productListView.setAdapter(myCursorAdapter);
 
         // Setup the item click listener
         productListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -54,13 +54,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 // Create new intent to go to {@link EditorActivity}
                 Intent intent = new Intent(MainActivity.this, EditorActivity.class);
-
                 // Form the content URI that represents the specific product that was clicked on,
                 // by appending the "id" (passed as input to this method) onto the
-                Uri currentPetUri = ContentUris.withAppendedId(ProductEntry.CONTENT_URI, id);
+                Uri currentProductUri = ContentUris.withAppendedId(ProductEntry.CONTENT_URI, id);
 
                 // Set the URI on the data field of the intent
-                intent.setData(currentPetUri);
+                intent.setData(currentProductUri);
 
                 // Launch the {@link EditorActivity} to display the data for the current product.
                 startActivity(intent);
@@ -120,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
-          //  myCursorAdapter.swapCursor(null);
+            myCursorAdapter.swapCursor(null);
 
     }
 }

@@ -1,7 +1,10 @@
 package com.example.android.bookstoreapp;
 
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +16,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.bookstoreapp.data.ProductContract.ProductEntry;
+import com.example.android.bookstoreapp.data.ProductProvider;
 
 
 public class ProductCursorAdapter extends CursorAdapter {
     // Tag for the log messages
     public static final String LOG_TAG = "adapter";
-
+    private final ProductProvider productProvider = new ProductProvider();
     public ProductCursorAdapter(Context context, Cursor c) {
         super(context, c, 0 /* flags */);
     }
@@ -29,30 +33,43 @@ public class ProductCursorAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, Context context, final Cursor cursor) {
 
-        Button button = (Button) view.findViewById(R.id.button_sub);
-        int position = cursor.getPosition();
+        Button button = view.findViewById(R.id.button_sub);
+        final int position = cursor.getPosition();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Log.v(LOG_TAG,"called");
-    /*
-                ((ListView) parent).performItemClick(v, position, 0); // Let the event be handled in onItemClick()
+                Log.v(LOG_TAG,"called"+position);
+                int quantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_QUANTITY);
+                int quantity = cursor.getInt(quantityColumnIndex);
+                
+               // ((ListView) parent).performItemClick(v, position, 0); // Let the event be handled in onItemClick()
                 if (quantity > 0) {
                     quantity--;
-                    TextView displayQuantity = findViewById(R.id.display_product_quantity);
-                    displayQuantity.setText(String.valueOf(quantity));
+                    ContentValues values = new ContentValues();
+                    values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, String.valueOf(quantity));
+                    int idColumnIndex = cursor.getColumnIndex(ProductEntry._ID);
+                    String id = cursor.getString(idColumnIndex);
+                    Uri currentProductUri = cursor.getNotificationUri();
+
+                    //productProvider = new ProductProvider();
+
+                    //productProvider.update(currentProductUri, values, null, null);
+                    quantity = 55;
+                    TextView quantityTextView =  v.findViewById(R.id.quantity);
+                    quantityTextView.setText(String.valueOf(quantity));
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), getString(R.string.editor_negative_quantity),
-                            Toast.LENGTH_SHORT).show();
+
+                    Log.v(LOG_TAG,"INVAALID-----------------");
+                    //Toast.makeText(getApplicationContext(), getString(R.string.editor_negative_quantity),
+                      //      Toast.LENGTH_SHORT).show();
                 }
-                */
+
             }
         });
-
 
 
 

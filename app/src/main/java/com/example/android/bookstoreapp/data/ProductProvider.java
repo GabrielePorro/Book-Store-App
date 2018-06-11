@@ -37,10 +37,11 @@ public class ProductProvider extends ContentProvider {
     }
 
     // Database helper object
-    private ProductDbHelper mDbHelper;
+    public ProductDbHelper mDbHelper;
 
     @Override
     public boolean onCreate() {
+        Log.v("main","instanziato----------------------");
         mDbHelper = new ProductDbHelper(getContext());
         return true;
     }
@@ -59,17 +60,15 @@ public class ProductProvider extends ContentProvider {
         // This cursor will hold the result of the query
         Cursor cursor;
 
-        Log.v(LOG_TAG,"query called");
+
         // Figure out if the URI matcher can match the URI to a specific code
         int match = sUriMatcher.match(uri);
         switch (match) {
             case PRODUCTS:
-
                 cursor = database.query(ProductEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
             case PRODUCT_ID:
-
                 selection = ProductEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
 
@@ -81,9 +80,7 @@ public class ProductProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
-        if (cursor == null) {
-            Log.v(LOG_TAG, "nulllo!!!!!!!!!!!");
-        }
+        Log.v(LOG_TAG, String.valueOf(cursor.getCount()));
         //set notification to update the cursor
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
@@ -155,14 +152,14 @@ public class ProductProvider extends ContentProvider {
         // check that the gender value is valid.
         if (values.containsKey(ProductEntry.COLUMN_PRODUCT_PRICE)) {
             Double price = values.getAsDouble(ProductEntry.COLUMN_PRODUCT_PRICE);
-            if (price == null || price > 0) {
+            if (price == null || price < 0) {
                 throw new IllegalArgumentException("You have to provide a price");
             }
         }
         //positive or zero quantity
         if (values.containsKey(ProductEntry.COLUMN_PRODUCT_QUANTITY)) {
             Integer quantity = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_QUANTITY);
-            if (quantity == null || quantity > 0) {
+            if (quantity == null || quantity < 0) {
                 throw new IllegalArgumentException("You have to provide a positive quantity number");
             }
         }
@@ -171,7 +168,7 @@ public class ProductProvider extends ContentProvider {
             return 0;
         }
 
-        // Otherwise, get writeable database to update the data
+        // Otherwise, get writable database to update the data
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
         // Perform the update on the database and get the number of rows affected
