@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +23,10 @@ import com.example.android.bookstoreapp.data.ProductProvider;
 public class ProductCursorAdapter extends CursorAdapter {
     // Tag for the log messages
     public static final String LOG_TAG = "adapter";
-    private final ProductProvider productProvider = new ProductProvider();
     public ProductCursorAdapter(Context context, Cursor c) {
         super(context, c, 0 /* flags */);
     }
+
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -44,7 +45,7 @@ public class ProductCursorAdapter extends CursorAdapter {
                 Log.v(LOG_TAG,"called"+position);
                 int quantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_QUANTITY);
                 int quantity = cursor.getInt(quantityColumnIndex);
-                
+
                // ((ListView) parent).performItemClick(v, position, 0); // Let the event be handled in onItemClick()
                 if (quantity > 0) {
                     quantity--;
@@ -54,9 +55,9 @@ public class ProductCursorAdapter extends CursorAdapter {
                     String id = cursor.getString(idColumnIndex);
                     Uri currentProductUri = cursor.getNotificationUri();
 
-                    //productProvider = new ProductProvider();
+                    ProductProvider productProvider = new ProductProvider();
 
-                    //productProvider.update(currentProductUri, values, null, null);
+                    productProvider.update(currentProductUri, values, null, null);
                     quantity = 55;
                     TextView quantityTextView =  v.findViewById(R.id.quantity);
                     quantityTextView.setText(String.valueOf(quantity));

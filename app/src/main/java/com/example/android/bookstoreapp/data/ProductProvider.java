@@ -41,7 +41,6 @@ public class ProductProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        Log.v("main","instanziato----------------------");
         mDbHelper = new ProductDbHelper(getContext());
         return true;
     }

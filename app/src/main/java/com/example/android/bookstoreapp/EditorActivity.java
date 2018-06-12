@@ -1,16 +1,22 @@
 package com.example.android.bookstoreapp;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.content.Loader;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -34,8 +40,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private TextView displayQuantity ;
     private EditText mSupplierNameEditText ;
     private EditText mSupplierPhoneEditText ;
+    private static final int REQUEST_PHONE_CALL = 1;
     /** Boolean flag that keeps track of whether the product has been edited (true) or not (false) */
     private boolean mProductHasChanged = false;
+
     /**
      * OnTouchListener that listens for any user touches on a View, implying that they are modifying
      * the view, and we change the mPetHasChanged boolean to true.
@@ -109,6 +117,29 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 }
             }
         });
+
+        //order button listener
+        Button orderBtn = findViewById(R.id.button_order);
+        orderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(EditorActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(EditorActivity.this, new String[]{Manifest.permission.CALL_PHONE},REQUEST_PHONE_CALL);
+                }
+                else
+                {
+                    mSupplierPhoneEditText =  findViewById(R.id.edit_product_supplier_phone);
+                    if (!mSupplierPhoneEditText.getText().toString().equals("")) {
+                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "Your Phone_number"));
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(getApplicationContext(), getString(R.string.editor_order_message),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+            }
+        });
     }
 
     private void showUnsavedChangesDialog(
@@ -133,7 +164,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         alertDialog.show();
     }
 
-
     /**
      * Get user input from editor and save pet into database.
      */
@@ -154,25 +184,36 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 TextUtils.isEmpty(supplierPhoneString)) {
             // Since no fields were modified, we can return early without creating a new pet.
             // No need to create ContentValues and no need to do any ContentProvider operations.
+            Toast.makeText(this, R.string.data_empty_message,
+                    Toast.LENGTH_SHORT).show();
             return false;
         }
         //fields control
         if (TextUtils.isEmpty(nameString)){
-            Toast.makeText(this, "Insert a product name.",
+            Toast.makeText(this, R.string.insert_name_message,
                     Toast.LENGTH_SHORT).show();
             return false;
         }
         if (TextUtils.isEmpty(priceString)){
-            Toast.makeText(this, "Insert a product price.",
+            Toast.makeText(this, R.string.insert_price_message,
                     Toast.LENGTH_SHORT).show();
             return false;
         }
+        Double priceDouble;
+        //double conversion
+        try {
+        priceDouble = Double.parseDouble(priceString);
+        }
+        catch( Exception e ){
+            Toast.makeText(this, "Price is incorrectly formatted",
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
         // Create a ContentValues object where column names are the keys,
         // and pet attributes from the editor are the values.
         ContentValues values = new ContentValues();
         values.put(ProductEntry.COLUMN_PRODUCT_NAME, nameString);
-        //double conversion
-        Double priceDouble = Double.parseDouble(priceString);
         values.put(ProductEntry.COLUMN_PRODUCT_PRICE, priceDouble);
         values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, String.valueOf(quantity));
         values.put(ProductEntry.COLUMN_PRODUCT_SUPPLIER_NAME, supplierNameString);

@@ -3,8 +3,10 @@ package com.example.android.bookstoreapp.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Bundle;
 import android.util.Log;
 
+import com.example.android.bookstoreapp.R;
 import com.example.android.bookstoreapp.data.ProductContract.ProductEntry;
 
 public class ProductDbHelper extends SQLiteOpenHelper {

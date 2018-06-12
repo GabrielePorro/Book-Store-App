@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
-                android:text="0" />
+                android:text="@string/zero" />
 
             <Button
                 android:id="@+id/button_sub"
@@ -106,7 +106,14 @@
                 style="@style/EditorFieldStyle"
                 android:hint="@string/supplier_phone"
                 android:inputType="phone" />
+
+            <Button
+                android:id="@+id/button_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/order" />
         </LinearLayout>
     </LinearLayout>
+
 
 </LinearLayout>

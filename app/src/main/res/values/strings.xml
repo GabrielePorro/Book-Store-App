@@ -30,5 +30,11 @@
     <string name="discard">Discard</string>
     <string name="keep_editing">Keep Editing</string>
     <string name="delete_dialog_msg">Are you sure to delete this product?</string>
+    <string name="order">Order</string>
+    <string name="editor_order_message">Please provide a supplier phone number before ordering</string>
+    <string name="zero">0</string>
+    <string name="data_empty_message">Data cannot be empty.</string>
+    <string name="insert_name_message">Insert a product name.</string>
+    <string name="insert_price_message">Insert a product price.</string>
 
 </resources>
