@@ -112,14 +112,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        if (cursor.getCount() > 0) {
             myCursorAdapter.swapCursor(cursor);
-        }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
         myCursorAdapter.swapCursor(null);
 
     }

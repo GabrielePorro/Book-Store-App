@@ -45,10 +45,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
      */
     private boolean mProductHasChanged = false;
 
-    /**
-     * OnTouchListener that listens for any user touches on a View, implying that they are modifying
-     * the view, and we change the mPetHasChanged boolean to true.
-     */
+
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -295,7 +292,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         finish();
     }
 
-
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         // Since the editor shows all attributes, define a projection that contains
@@ -311,7 +307,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this, mCurrentProductUri, projection,null,null,null);
     }
-
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
