@@ -36,5 +36,6 @@
     <string name="data_empty_message">Data cannot be empty.</string>
     <string name="insert_name_message">Insert a product name.</string>
     <string name="insert_price_message">Insert a product price.</string>
+    <string name="price_incorrectly_formatted">Price is incorrectly formatted</string>
 
 </resources>

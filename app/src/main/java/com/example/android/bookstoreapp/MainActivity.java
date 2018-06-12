@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.support.design.widget.FloatingActionButton;
+
 import com.example.android.bookstoreapp.data.ProductContract.ProductEntry;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         View emptyView = findViewById(R.id.empty_view);
         productListView.setEmptyView(emptyView);
         //set the adapter
-        myCursorAdapter = new ProductCursorAdapter(this,null);
+        myCursorAdapter = new ProductCursorAdapter(this, null);
         productListView.setAdapter(myCursorAdapter);
 
         // Setup the item click listener
@@ -67,12 +68,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
 
         //start the loader
-        getLoaderManager().initLoader(PRODUCT_LOADER,null,this);
+        getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
     }
 
     private void deleteAllProducts() {
         int rowsDeleted = getContentResolver().delete(ProductEntry.CONTENT_URI, null, null);
-        Log.v("CatalogActivity", rowsDeleted + " rows deleted from pet database");
+        Log.v("CatalogActivity", rowsDeleted + " rows deleted from database");
     }
 
     //--------------MENU-----------------
@@ -105,13 +106,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 ProductEntry.COLUMN_PRODUCT_PRICE,
                 ProductEntry.COLUMN_PRODUCT_QUANTITY};
 
-        return new CursorLoader(this,ProductEntry.CONTENT_URI,projection,null,null,null);
+        return new CursorLoader(this, ProductEntry.CONTENT_URI, projection, null, null, null);
 
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        if (cursor.getCount() > 0 ){
+        if (cursor.getCount() > 0) {
             myCursorAdapter.swapCursor(cursor);
         }
     }
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
-            myCursorAdapter.swapCursor(null);
+        myCursorAdapter.swapCursor(null);
 
     }
 }

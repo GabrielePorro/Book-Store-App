@@ -32,12 +32,12 @@ public class ProductCursorAdapter extends CursorAdapter {
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         return LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
     }
-
-    @Override
-    public void bindView(View view, Context context, final Cursor cursor) {
+       @Override
+    public void bindView(View view, final Context context, final Cursor cursor) {
 
         Button button = view.findViewById(R.id.button_sub);
         final int position = cursor.getPosition();
+        final TextView quantityTextView =  view.findViewById(R.id.quantity);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,19 +54,17 @@ public class ProductCursorAdapter extends CursorAdapter {
                     int idColumnIndex = cursor.getColumnIndex(ProductEntry._ID);
                     String id = cursor.getString(idColumnIndex);
                     Uri currentProductUri = cursor.getNotificationUri();
+                    String selection = ProductEntry._ID + "=?";
+                    String[] selectionArgs = new String[] { id };
 
-                    ProductProvider productProvider = new ProductProvider();
+                    int newUpdate = context.getContentResolver().update(currentProductUri, values, selection, selectionArgs);
 
-                    productProvider.update(currentProductUri, values, null, null);
-                    quantity = 55;
-                    TextView quantityTextView =  v.findViewById(R.id.quantity);
                     quantityTextView.setText(String.valueOf(quantity));
                 }
                 else {
 
-                    Log.v(LOG_TAG,"INVAALID-----------------");
-                    //Toast.makeText(getApplicationContext(), getString(R.string.editor_negative_quantity),
-                      //      Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context.getApplicationContext(), context.getString(R.string.editor_negative_quantity),
+                            Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -75,9 +73,8 @@ public class ProductCursorAdapter extends CursorAdapter {
 
 
         // Find individual views that we want to modify in the list item layout
-        TextView nameTextView = (TextView) view.findViewById(R.id.name);
-        TextView priceTextView = (TextView) view.findViewById(R.id.price);
-        TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
+        TextView nameTextView =  view.findViewById(R.id.name);
+        TextView priceTextView =  view.findViewById(R.id.price);
 
         int nameColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_NAME);
         int priceColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PRICE);

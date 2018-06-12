@@ -38,10 +38,12 @@ public class ProductProvider extends ContentProvider {
 
     // Database helper object
     public ProductDbHelper mDbHelper;
+    public SQLiteDatabase database;
 
     @Override
     public boolean onCreate() {
         mDbHelper = new ProductDbHelper(getContext());
+         database = mDbHelper.getWritableDatabase();
         return true;
     }
 
@@ -54,7 +56,7 @@ public class ProductProvider extends ContentProvider {
 
 
         // Get readable database
-        SQLiteDatabase database = mDbHelper.getReadableDatabase();
+        database = mDbHelper.getReadableDatabase();
 
         // This cursor will hold the result of the query
         Cursor cursor;
@@ -79,7 +81,6 @@ public class ProductProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
-        Log.v(LOG_TAG, String.valueOf(cursor.getCount()));
         //set notification to update the cursor
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
@@ -101,7 +102,7 @@ public class ProductProvider extends ContentProvider {
     }
     private Uri insertProduct(Uri uri, ContentValues values) {
 
-        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+        database = mDbHelper.getWritableDatabase();
 
         //sanity check: supplier name and phone could be null.
 
@@ -168,7 +169,7 @@ public class ProductProvider extends ContentProvider {
         }
 
         // Otherwise, get writable database to update the data
-        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+        database = mDbHelper.getWritableDatabase();
 
         // Perform the update on the database and get the number of rows affected
         int rowsUpdated = database.update(ProductEntry.TABLE_NAME, values, selection, selectionArgs);
@@ -206,7 +207,7 @@ public class ProductProvider extends ContentProvider {
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         // Get writable database
-        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+        database = mDbHelper.getWritableDatabase();
 
         // Track the number of rows that were deleted
         int rowsDeleted;
