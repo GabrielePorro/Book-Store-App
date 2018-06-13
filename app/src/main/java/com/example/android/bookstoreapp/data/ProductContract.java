@@ -25,7 +25,6 @@ public final class ProductContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PRODUCT;
 
-        public static final String _ID = BaseColumns._ID;
         public static final String TABLE_NAME = "products";
         public static final String COLUMN_PRODUCT_NAME = "name";
         public static final String COLUMN_PRODUCT_PRICE = "price";

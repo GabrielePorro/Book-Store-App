@@ -37,5 +37,7 @@
     <string name="insert_name_message">Insert a product name.</string>
     <string name="insert_price_message">Insert a product price.</string>
     <string name="price_incorrectly_formatted">Price is incorrectly formatted</string>
+    <string name="provide_supplier_name_message">Please, provide a supplier phone</string>
+    <string name="provide_supplier_phone_message">Please, provide a supplier name</string>
 
 </resources>

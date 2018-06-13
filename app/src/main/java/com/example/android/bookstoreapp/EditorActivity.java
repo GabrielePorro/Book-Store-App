@@ -30,7 +30,7 @@ import com.example.android.bookstoreapp.data.ProductContract.ProductEntry;
 
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int EXISTING_PET_LOADER = 1;
+    private static final int EXISTING_PRODUCT_LOADER = 1;
     private Uri mCurrentProductUri;
     private Integer quantity = 0;
     // Find all relevant views that we will need to read user input from
@@ -78,7 +78,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             setTitle(getString(R.string.editor_activity_title_edit_product));
 
             // Initialize a loader
-            getLoaderManager().initLoader(EXISTING_PET_LOADER, null, this);
+            getLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
         }
 
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
@@ -197,7 +197,20 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                     Toast.LENGTH_SHORT).show();
             return false;
         }
+        //supplier name
+        if (TextUtils.isEmpty(supplierNameString)) {
+            Toast.makeText(this, R.string.provide_supplier_phone_message,
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        //supplier phone
+        if (TextUtils.isEmpty(supplierPhoneString)) {
+            Toast.makeText(this, R.string.provide_supplier_name_message,
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
 
+        //quantity is not validated because is always zero or positive
 
         ContentValues values = new ContentValues();
         values.put(ProductEntry.COLUMN_PRODUCT_NAME, nameString);

@@ -124,6 +124,17 @@ public class ProductProvider extends ContentProvider {
             throw new IllegalArgumentException("You have to provide a positive quantity number");
         }
 
+        // Check that the supplier name is not null
+        String supplierName = values.getAsString(ProductEntry.COLUMN_PRODUCT_SUPPLIER_NAME);
+        if (supplierName == null) {
+            throw new IllegalArgumentException("Product must have a name");
+        }
+
+        // Check that the name is not null
+        String supplierPhone = values.getAsString(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE);
+        if (supplierPhone == null) {
+            throw new IllegalArgumentException("Product must have a name");
+        }
 
         long id = database.insert(ProductEntry.TABLE_NAME, null, values);
         // If the ID is -1, then the insertion failed. Log an error and return null.
@@ -149,7 +160,6 @@ public class ProductProvider extends ContentProvider {
         }
 
         // If the {@link ProductEntry#COLUMN_PRODUCT_PRICE} key is present,
-        // check that the gender value is valid.
         if (values.containsKey(ProductEntry.COLUMN_PRODUCT_PRICE)) {
             Double price = values.getAsDouble(ProductEntry.COLUMN_PRODUCT_PRICE);
             if (price == null || price < 0) {
@@ -167,6 +177,22 @@ public class ProductProvider extends ContentProvider {
         if (values.size() == 0) {
             return 0;
         }
+        //supplier name
+        if (values.containsKey(ProductEntry.COLUMN_PRODUCT_SUPPLIER_NAME)) {
+            String name = values.getAsString(ProductEntry.COLUMN_PRODUCT_SUPPLIER_NAME);
+            if (name == null) {
+                throw new IllegalArgumentException("Product must have a supplier name");
+            }
+        }
+        //supplier phone
+        if (values.containsKey(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE)) {
+            String name = values.getAsString(ProductEntry.COLUMN_PRODUCT_SUPPLIER_PHONE);
+            if (name == null) {
+                throw new IllegalArgumentException("Product must have a supplier phone");
+            }
+        }
+
+        //quantity is not validated because is always zero or positive
 
         // Otherwise, get writable database to update the data
         database = mDbHelper.getWritableDatabase();
